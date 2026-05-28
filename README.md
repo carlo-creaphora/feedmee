@@ -8,3 +8,19 @@ El producto no busca reemplazar una encuesta de satisfaccion tradicional. Busca 
 
 - `docs/product-brief.md`: tesis del producto, usuarios, problema y experiencia esperada.
 - `docs/mvp-scope.md`: primer alcance funcional recomendado para construir.
+
+## Primer prototipo
+
+Rutas iniciales:
+
+- `/`: entrada comercial de FeedMee.
+- `/r/casa-aurora`: encuesta mobile-first para comensales.
+- `/admin`: reporte vivo demo para el restaurante.
+
+Desarrollo local:
+
+```bash
+pnpm install
+pnpm dev
+pnpm build
+```

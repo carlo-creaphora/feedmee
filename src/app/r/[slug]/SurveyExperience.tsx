@@ -1,10 +1,9 @@
 "use client";
 
 import { CheckCircle2, Send, Utensils } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import type { Feedback } from "@/lib/demo-data";
-
-const storageKey = "feedmee-feedback-v1";
+import { readFeedback, readRestaurantProfile, saveFeedback } from "@/lib/local-store";
 
 type SurveyExperienceProps = {
   restaurantName: string;
@@ -14,6 +13,12 @@ type SurveyExperienceProps = {
 export function SurveyExperience({ restaurantName, restaurantSlug }: SurveyExperienceProps) {
   const [rating, setRating] = useState(4);
   const [submitted, setSubmitted] = useState(false);
+  const [activeName, setActiveName] = useState(restaurantName);
+
+  useEffect(() => {
+    const profile = readRestaurantProfile();
+    if (profile.slug === restaurantSlug) setActiveName(profile.name);
+  }, [restaurantSlug]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -31,9 +36,7 @@ export function SurveyExperience({ restaurantName, restaurantSlug }: SurveyExper
       createdAt: new Date().toISOString(),
     };
 
-    const stored = window.localStorage.getItem(storageKey);
-    const feedbackList = stored ? (JSON.parse(stored) as Feedback[]) : [];
-    window.localStorage.setItem(storageKey, JSON.stringify([feedback, ...feedbackList]));
+    saveFeedback([feedback, ...readFeedback()]);
     setSubmitted(true);
     event.currentTarget.reset();
   }
@@ -50,7 +53,7 @@ export function SurveyExperience({ restaurantName, restaurantSlug }: SurveyExper
 
         <section className="survey-card" style={{ marginTop: 18 }}>
           <div className="survey-cover">
-            <h1>{restaurantName}</h1>
+            <h1>{activeName}</h1>
             <p>
               Tu respuesta ayuda a detectar detalles que normalmente no se dicen en mesa.
               Toma menos de dos minutos.

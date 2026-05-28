@@ -28,8 +28,8 @@ export default function Home() {
             <Link className="button secondary" href={`/r/${demoRestaurant.slug}`}>
               Ver encuesta
             </Link>
-            <Link className="button primary" href="/admin">
-              Ver dashboard
+            <Link className="button primary" href="/admin/setup">
+              Activar demo
               <ArrowRight size={16} />
             </Link>
           </div>
@@ -54,6 +54,10 @@ export default function Home() {
               <Link className="button secondary" href="/admin">
                 Abrir reporte demo
                 <ChartNoAxesCombined size={17} />
+              </Link>
+              <Link className="button secondary" href="/admin/setup">
+                Configurar restaurante
+                <QrCode size={17} />
               </Link>
             </div>
             <div className="hero-proof">

@@ -16,6 +16,7 @@ Rutas iniciales:
 - `/`: entrada comercial de FeedMee.
 - `/r/casa-aurora`: encuesta mobile-first para comensales.
 - `/admin`: reporte vivo demo para el restaurante.
+- `/admin/setup`: activacion comercial de restaurante, sede y link.
 
 Desarrollo local:
 

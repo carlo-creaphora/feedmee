@@ -21,20 +21,22 @@ import {
   type Feedback,
   type Insight,
 } from "@/lib/demo-data";
-
-const storageKey = "feedmee-feedback-v1";
+import { defaultRestaurantProfile, readFeedback, readRestaurantProfile, type RestaurantProfile } from "@/lib/local-store";
 
 export function AdminDashboard() {
   const [capturedFeedback, setCapturedFeedback] = useState<Feedback[]>([]);
+  const [restaurant, setRestaurant] = useState<RestaurantProfile>(defaultRestaurantProfile);
 
   useEffect(() => {
-    const stored = window.localStorage.getItem(storageKey);
-    if (stored) setCapturedFeedback(JSON.parse(stored) as Feedback[]);
+    setRestaurant(readRestaurantProfile());
+    setCapturedFeedback(readFeedback());
   }, []);
 
   const feedback = useMemo(() => {
-    return [...capturedFeedback.filter((item) => item.restaurantSlug === demoRestaurant.slug), ...sampleFeedback];
-  }, [capturedFeedback]);
+    const activeFeedback = capturedFeedback.filter((item) => item.restaurantSlug === restaurant.slug);
+    const demoFallback = restaurant.slug === demoRestaurant.slug ? sampleFeedback : [];
+    return [...activeFeedback, ...demoFallback];
+  }, [capturedFeedback, restaurant.slug]);
 
   const insights = useMemo<Insight[]>(() => buildLiveInsights(feedback), [feedback]);
   const averageRating = getAverageRating(feedback);
@@ -84,17 +86,22 @@ export function AdminDashboard() {
             <div>
               <span className="eyebrow">
                 <ShieldCheck size={15} />
-                {demoRestaurant.plan}
+                {restaurant.plan}
               </span>
-              <h1 style={{ margin: "12px 0 4px" }}>{demoRestaurant.name}</h1>
+              <h1 style={{ margin: "12px 0 4px" }}>{restaurant.name}</h1>
               <p style={{ margin: 0, color: "var(--muted)" }}>
-                Reporte vivo de experiencia para {demoRestaurant.city}
+                Reporte vivo de experiencia para {restaurant.city}, {restaurant.country}
               </p>
             </div>
-            <Link className="button primary" href={`/r/${demoRestaurant.slug}`}>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <Link className="button secondary" href="/admin/setup">
+                Configurar
+              </Link>
+              <Link className="button primary" href={`/r/${restaurant.slug}`}>
               Abrir encuesta
               <ExternalLink size={16} />
-            </Link>
+              </Link>
+            </div>
           </div>
 
           <div className="kpi-grid">
@@ -149,7 +156,7 @@ export function AdminDashboard() {
                 <div className="qr-box" aria-label="QR demo" />
                 <div>
                   <Link className="button secondary" href={`/r/${demoRestaurant.slug}`}>
-                    /r/{demoRestaurant.slug}
+                    /r/{restaurant.slug}
                   </Link>
                 </div>
               </div>

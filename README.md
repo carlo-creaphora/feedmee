@@ -1,6 +1,10 @@
 # FeedMee
 
-Producto nuevo de Creaphora.
+FeedMee ayuda a restaurantes a entender por que sus comensales no regresan, que les incomodo y que senales tempranas aparecen en la experiencia, cruzando feedback abierto con informacion operativa y resenas publicas.
 
-Este repositorio empieza limpio. La definicion funcional, arquitectura y componentes se decidiran en el siguiente paso a partir del contexto del producto.
+El producto no busca reemplazar una encuesta de satisfaccion tradicional. Busca convertir comentarios honestos, incomodos o debiles en decisiones diarias para el dueno o administrador del restaurante.
 
+## Documentos base
+
+- `docs/product-brief.md`: tesis del producto, usuarios, problema y experiencia esperada.
+- `docs/mvp-scope.md`: primer alcance funcional recomendado para construir.
